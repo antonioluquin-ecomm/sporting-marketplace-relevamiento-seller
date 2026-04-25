@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Relevamiento de Seller — Sporting Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --g:    #5ea832; --g2:#4a8a26; --g-dim:rgba(94,168,50,.10); --g-brd:rgba(94,168,50,.22);
+  --k:    #0d0f0d; --k2:#141814; --k3:#191d18;
+  --w:    #ffffff;
+  --bdr:  rgba(255,255,255,.08); --bdr-l:rgba(255,255,255,.05);
+  --t1:   #e8ede4; --t2:#a1b199; --t3:#6b7b65;
+  --red:  #d94040; --red-dim:rgba(217,64,64,.12);
+  --s1:   #f4f7f2; --s2:#e8ede4; --s3:#d0dbc8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:15px;scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--s1);color:#1a221a;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+/* ── HEADER ── */
+.site-header{
+  background:var(--k);border-bottom:2px solid var(--g);
+  padding:0 0 0 0;
+}
+.header-inner{max-width:860px;margin:0 auto;padding:20px 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;text-transform:uppercase;color:var(--w)}
+.logo span{color:var(--g)}
+.header-badge{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:5px 12px;border-radius:4px}
+
+/* ── HERO ── */
+.hero{background:var(--k2);border-bottom:1px solid rgba(255,255,255,.06)}
+.hero-inner{max-width:860px;margin:0 auto;padding:36px 24px}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;text-transform:uppercase;color:var(--w);margin-bottom:10px}
+.hero-title span{color:var(--g)}
+.hero-sub{font-size:14px;color:var(--t2);line-height:1.7;max-width:560px;margin-bottom:20px}
+.hero-steps{display:flex;gap:0;border:1px solid rgba(255,255,255,.07);border-radius:8px;overflow:hidden}
+.hero-step{flex:1;padding:12px 16px;border-right:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px}
+.hero-step:last-child{border-right:none}
+.step-n{width:22px;height:22px;border-radius:50%;background:var(--g);color:var(--w);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-txt{font-size:11px;color:var(--t2);line-height:1.4}
+
+/* ── LAYOUT ── */
+.page{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+
+/* ── PROGRESO ── */
+.progress-bar{background:var(--w);border:1px solid var(--s3);border-radius:8px;padding:16px 20px;margin-bottom:24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.pb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pb-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
+.pb-count{font-size:11px;font-weight:700;color:var(--g)}
+.pb-track{height:5px;background:var(--s2);border-radius:3px;overflow:hidden}
+.pb-fill{height:100%;background:var(--g);border-radius:3px;transition:width .4s ease}
+.pb-sections{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.pb-sec{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:3px;cursor:pointer;transition:all .15s}
+.pb-sec.done{background:var(--g-dim);color:var(--g);border:1px solid var(--g-brd)}
+.pb-sec.active{background:var(--g);color:var(--w)}
+.pb-sec.pending{background:var(--s2);color:var(--t3);border:1px solid var(--s3)}
+
+/* ── SECCIONES ── */
+.form-section{background:var(--w);border:1px solid var(--s3);border-radius:12px;margin-bottom:20px;overflow:hidden;transition:box-shadow .2s}
+.form-section:hover{box-shadow:0 4px 20px rgba(0,0,0,.07)}
+.section-header{display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid var(--s2);cursor:pointer;user-select:none}
+.section-num{width:32px;height:32px;border-radius:8px;background:var(--g);color:var(--w);font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;text-transform:uppercase;color:#1a221a}
+.section-sub{font-size:11px;color:var(--t3);margin-top:1px}
+.section-chevron{margin-left:auto;font-size:14px;color:var(--t3);transition:transform .2s}
+.section-body{padding:22px;display:flex;flex-direction:column;gap:16px}
+.form-section.collapsed .section-body{display:none}
+.form-section.collapsed .section-chevron{transform:rotate(-90deg)}
+
+/* ── FIELDS ── */
+.field{display:flex;flex-direction:column;gap:6px}
+.field.half{flex:1;min-width:0}
+.field-row{display:flex;gap:14px}
+.field label{font-size:12px;font-weight:700;color:#2d3d2a;letter-spacing:.02em}
+.field label .req{color:var(--red);margin-left:2px}
+.field label .opt{font-size:10px;font-weight:400;color:var(--t3);margin-left:4px}
+.hint{font-size:11px;color:var(--t3);line-height:1.5;margin-top:-2px}
+
+.inp,.sel,.ta{
+  padding:10px 13px;
+  border:1.5px solid var(--s3);border-radius:7px;
+  font-family:'Barlow',sans-serif;font-size:13px;color:#1a221a;
+  background:var(--w);transition:border-color .15s,background .15s;
+  width:100%;
+}
+.inp:focus,.sel:focus,.ta:focus{outline:none;border-color:var(--g);background:#f9fbf8}
+.inp.error,.sel.error,.ta.error{border-color:var(--red);background:var(--red-dim)}
+.sel{cursor:pointer}
+.ta{resize:vertical;min-height:80px;line-height:1.6}
+
+/* Radio / checkbox groups */
+.options-group{display:flex;flex-direction:column;gap:8px}
+.options-group.horizontal{flex-direction:row;flex-wrap:wrap;gap:8px}
+.opt-item{display:flex;align-items:flex-start;gap:9px;cursor:pointer}
+.opt-item input[type=radio],.opt-item input[type=checkbox]{
+  width:17px;height:17px;border-radius:4px;accent-color:var(--g);
+  cursor:pointer;flex-shrink:0;margin-top:1px;
+}
+.opt-item span{font-size:13px;color:#2d3d2a;line-height:1.4}
+
+/* Checklist box */
+.checklist-box{background:var(--s1);border:1px solid var(--s2);border-radius:7px;padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Conditional field */
+.conditional{display:none;padding:12px 14px;background:var(--s1);border:1px solid var(--s2);border-radius:7px;margin-top:-6px}
+.conditional.vis{display:block}
+
+/* ── SUBMIT AREA ── */
+.submit-area{background:var(--w);border:1px solid var(--s3);border-radius:12px;padding:28px 24px}
+.submit-disclaimer{font-size:12px;color:var(--t3);line-height:1.7;margin-bottom:18px;padding:12px 14px;background:var(--s1);border-radius:6px}
+.submit-disclaimer strong{color:#2d3d2a}
+.btn-submit{
+  width:100%;padding:15px;background:var(--g);color:var(--w);border:none;border-radius:8px;
+  font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;
+  letter-spacing:.06em;text-transform:uppercase;cursor:pointer;
+  transition:background .15s;display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.btn-submit:hover{background:var(--g2)}
+.btn-submit:disabled{background:var(--t3);cursor:not-allowed}
+.btn-submit .spin{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:var(--w);animation:sp .7s linear infinite;display:none}
+.btn-submit.loading .spin{display:block}
+.btn-submit.loading .btn-txt{opacity:.7}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ── SUCCESS ── */
+.success-screen{display:none;text-align:center;padding:48px 24px;background:var(--w);border:1px solid var(--s3);border-radius:12px}
+.success-screen.vis{display:block}
+.success-icon{font-size:52px;margin-bottom:16px}
+.success-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;text-transform:uppercase;color:var(--g);margin-bottom:10px}
+.success-body{font-size:14px;color:var(--t3);line-height:1.7;max-width:440px;margin:0 auto}
+
+/* ── ERROR BOX ── */
+.error-box{display:none;padding:14px 16px;background:var(--red-dim);border:1px solid rgba(217,64,64,.25);border-radius:7px;font-size:13px;color:var(--red);margin-top:12px}
+.error-box.vis{display:block}
+
+/* required field errors */
+.field-err{font-size:11px;color:var(--red);font-weight:600;display:none}
+.field-err.vis{display:block}
+
+@media(max-width:620px){
+  .field-row{flex-direction:column}
+  .checklist-box{grid-template-columns:1fr}
+  .hero-steps{flex-direction:column}
+  .hero-step{border-right:none;border-bottom:1px solid rgba(255,255,255,.07)}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">Sporting <span>Market</span></div>
+    <div class="header-badge">Relevamiento de Seller · 2026</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-title">Formulario de <span>Relevamiento</span></div>
+    <p class="hero-sub">Completá este formulario con los datos de tu operación. Nuestro equipo lo analiza y te presenta una propuesta personalizada en menos de 72 horas.</p>
+    <div class="hero-steps">
+      <div class="hero-step"><div class="step-n">1</div><div class="step-txt">Completás el formulario (~15 min)</div></div>
+      <div class="hero-step"><div class="step-n">2</div><div class="step-txt">Nuestro equipo analiza tu perfil</div></div>
+      <div class="hero-step"><div class="step-n">3</div><div class="step-txt">Propuesta en menos de 72 horas</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="pb-top">
+      <span class="pb-label">Progreso</span>
+      <span class="pb-count" id="pb-count">0 / 12 secciones</span>
+    </div>
+    <div class="pb-track"><div class="pb-fill" id="pb-fill" style="width:0%"></div></div>
+    <div class="pb-sections" id="pb-sections"></div>
+  </div>
+
+  <form id="form-relevamiento" novalidate>
+
+  <!-- ══ 1. DATOS GENERALES ══ -->
+  <div class="form-section" id="sec-1">
+    <div class="section-header" onclick="toggleSection(1)">
+      <div class="section-num">1</div>
+      <div><div class="section-title">Datos generales</div><div class="section-sub">Información de la empresa y contactos</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field half">
+          <label>Nombre comercial / marca <span class="req">*</span></label>
+          <input class="inp" type="text" id="f-nombre" placeholder="Ej: Mi Marca SA" required>
+          <span class="field-err" id="e-nombre">Campo requerido</span>
+        </div>
+        <div class="field half">
+          <label>Razón social <span class="req">*</span></label>
+          <input class="inp" type="text" id="f-razon" placeholder="Razón social completa" required>
+          <span class="field-err" id="e-razon">Campo requerido</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field half">
+          <label>CUIT <span class="req">*</span></label>
+          <input class="inp" type="text" id="f-cuit" placeholder="XX-XXXXXXXX-X" required>
+          <span class="field-err" id="e-cuit">Campo requerido</span>
+        </div>
+        <div class="field half">
+          <label>Sitio web <span class="opt">(opcional)</span></label>
+          <input class="inp" type="url" id="f-web" placeholder="https://www.ejemplo.com">
+        </div>
+      </div>
+      <div class="field">
+        <label>País / provincia de operación <span class="req">*</span></label>
+        <input class="inp" type="text" id="f-pais" placeholder="Ej: Argentina — Buenos Aires" required>
+        <span class="field-err" id="e-pais">Campo requerido</span>
+      </div>
+      <div style="border-top:1px solid var(--s2);padding-top:14px;margin-top:2px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:12px">Contacto comercial</div>
+        <div class="field-row">
+          <div class="field half">
+            <label>Nombre y cargo <span class="req">*</span></label>
+            <input class="inp" type="text" id="f-cont-com-nombre" placeholder="Nombre · Cargo" required>
+            <span class="field-err" id="e-cont-com-nombre">Campo requerido</span>
+          </div>
+          <div class="field half">
+            <label>Email <span class="req">*</span></label>
+            <input class="inp" type="email" id="f-cont-com-email" placeholder="email@empresa.com" required>
+            <span class="field-err" id="e-cont-com-email">Campo requerido</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Teléfono / WhatsApp <span class="req">*</span></label>
+          <input class="inp" type="tel" id="f-cont-com-tel" placeholder="Cód. área + número" required>
+          <span class="field-err" id="e-cont-com-tel">Campo requerido</span>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--s2);padding-top:14px;margin-top:2px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:12px">Contacto técnico <span style="font-weight:400;font-style:italic">(si aplica)</span></div>
+        <div class="field-row">
+          <div class="field half">
+            <label>Nombre y cargo</label>
+            <input class="inp" type="text" id="f-cont-tec-nombre" placeholder="Nombre · Cargo">
+          </div>
+          <div class="field half">
+            <label>Email</label>
+            <input class="inp" type="email" id="f-cont-tec-email" placeholder="email@empresa.com">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 2. PERFIL COMERCIAL ══ -->
+  <div class="form-section collapsed" id="sec-2">
+    <div class="section-header" onclick="toggleSection(2)">
+      <div class="section-num">2</div>
+      <div><div class="section-title">Perfil comercial</div><div class="section-sub">Tipo de empresa, categorías y volumen</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>Tipo de empresa <span class="req">*</span></label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="tipo-empresa" value="Marca propia"><span>Marca propia</span></label>
+          <label class="opt-item"><input type="radio" name="tipo-empresa" value="Distribuidor"><span>Distribuidor</span></label>
+          <label class="opt-item"><input type="radio" name="tipo-empresa" value="Retailer"><span>Retailer</span></label>
+          <label class="opt-item"><input type="radio" name="tipo-empresa" value="Fabricante"><span>Fabricante</span></label>
+          <label class="opt-item"><input type="radio" name="tipo-empresa" value="Otro"><span>Otro</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Categorías principales que comercializa <span class="req">*</span></label>
+        <input class="inp" type="text" id="f-categorias" placeholder="Ej: Calzado deportivo, Indumentaria, Accesorios" required>
+        <span class="field-err" id="e-categorias">Campo requerido</span>
+      </div>
+      <div class="field">
+        <label>Cantidad estimada de SKUs para una primera etapa</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="skus-est" value="Menos de 100"><span>Menos de 100</span></label>
+          <label class="opt-item"><input type="radio" name="skus-est" value="100 a 500"><span>100 a 500</span></label>
+          <label class="opt-item"><input type="radio" name="skus-est" value="501 a 2.000"><span>501 a 2.000</span></label>
+          <label class="opt-item"><input type="radio" name="skus-est" value="Más de 2.000"><span>Más de 2.000</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Los productos tienen variantes (talle, color u otras)?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="variantes" value="Sí"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="variantes" value="No"><span>No</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Tiene experiencia vendiendo en marketplaces?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="exp-mkt" value="Sí" onclick="toggleConditional('cond-mkt',true)"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="exp-mkt" value="No" onclick="toggleConditional('cond-mkt',false)"><span>No</span></label>
+        </div>
+        <div class="conditional" id="cond-mkt">
+          <label style="font-size:12px;font-weight:600;color:#2d3d2a;display:block;margin-bottom:5px">¿En cuáles?</label>
+          <input class="inp" type="text" id="f-mkt-cuales" placeholder="Ej: MercadoLibre, Falabella, Cencosud">
+        </div>
+      </div>
+      <div class="field">
+        <label>Volumen promedio de pedidos diarios actual</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="pedidos-dia" value="Menos de 10"><span>Menos de 10</span></label>
+          <label class="opt-item"><input type="radio" name="pedidos-dia" value="10 a 50"><span>10 a 50</span></label>
+          <label class="opt-item"><input type="radio" name="pedidos-dia" value="51 a 100"><span>51 a 100</span></label>
+          <label class="opt-item"><input type="radio" name="pedidos-dia" value="Más de 100"><span>Más de 100</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 3. PLATAFORMA Y SISTEMAS ══ -->
+  <div class="form-section collapsed" id="sec-3">
+    <div class="section-header" onclick="toggleSection(3)">
+      <div class="section-num">3</div>
+      <div><div class="section-title">Plataforma y sistemas</div><div class="section-sub">eCommerce, ERP y capacidades de integración</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>Plataforma de eCommerce utilizada</label>
+        <select class="sel" id="f-plataforma">
+          <option value="">— Seleccioná —</option>
+          <option>VTEX</option><option>Shopify</option><option>WooCommerce</option>
+          <option>Salesforce Commerce Cloud</option><option>Tienda Nube</option>
+          <option>Desarrollo propio</option><option>No tiene tienda online</option><option>Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>¿Cuenta con ERP, OMS o sistema de gestión?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="erp" value="Sí" onclick="toggleConditional('cond-erp',true)"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="erp" value="No" onclick="toggleConditional('cond-erp',false)"><span>No</span></label>
+        </div>
+        <div class="conditional" id="cond-erp">
+          <label style="font-size:12px;font-weight:600;color:#2d3d2a;display:block;margin-bottom:5px">¿Cuál?</label>
+          <input class="inp" type="text" id="f-erp-cual" placeholder="Ej: SAP, Tango Gestión, Oracle, propio">
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Cuenta con APIs disponibles para integración?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="api" value="Sí"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="api" value="No"><span>No</span></label>
+          <label class="opt-item"><input type="radio" name="api" value="No sabe"><span>No sabe</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Cuenta con equipo técnico para acompañar la integración?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="equipo-tec" value="Sí"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="equipo-tec" value="No"><span>No</span></label>
+          <label class="opt-item"><input type="radio" name="equipo-tec" value="Parcial"><span>Parcial</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Frecuencia posible de actualización de información</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="frec-act" value="Tiempo real / API"><span>Tiempo real / API</span></label>
+          <label class="opt-item"><input type="radio" name="frec-act" value="Varias veces por día"><span>Varias veces / día</span></label>
+          <label class="opt-item"><input type="radio" name="frec-act" value="Diario"><span>Diario</span></label>
+          <label class="opt-item"><input type="radio" name="frec-act" value="Semanal"><span>Semanal</span></label>
+          <label class="opt-item"><input type="radio" name="frec-act" value="Manual / a demanda"><span>Manual</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 4. CATÁLOGO ══ -->
+  <div class="form-section collapsed" id="sec-4">
+    <div class="section-header" onclick="toggleSection(4)">
+      <div class="section-num">4</div>
+      <div><div class="section-title">Catálogo</div><div class="section-sub">Gestión y completitud de la información de producto</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>¿Cómo gestiona actualmente su catálogo?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="gestion-cat" value="Sistema propio"><span>Sistema propio</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-cat" value="Plataforma eCommerce"><span>Plataforma eCommerce</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-cat" value="Excel"><span>Excel</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-cat" value="Manual"><span>Manual</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-cat" value="Otro"><span>Otro</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Puede enviar el catálogo en formato Excel?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="cat-excel" value="Sí"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="cat-excel" value="No"><span>No</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿La información de producto está completa para publicación online? <span class="opt">(marcá lo que tenés)</span></label>
+        <div class="checklist-box">
+          <label class="opt-item"><input type="checkbox" name="info-prod" value="Nombre"><span>Nombre</span></label>
+          <label class="opt-item"><input type="checkbox" name="info-prod" value="Descripción"><span>Descripción</span></label>
+          <label class="opt-item"><input type="checkbox" name="info-prod" value="Imágenes"><span>Imágenes</span></label>
+          <label class="opt-item"><input type="checkbox" name="info-prod" value="Marca"><span>Marca</span></label>
+          <label class="opt-item"><input type="checkbox" name="info-prod" value="Categoría"><span>Categoría</span></label>
+          <label class="opt-item"><input type="checkbox" name="info-prod" value="Variantes (talle/color)"><span>Variantes (talle/color)</span></label>
+          <label class="opt-item"><input type="checkbox" name="info-prod" value="EAN / código de barras"><span>EAN / código de barras</span></label>
+          <label class="opt-item"><input type="checkbox" name="info-prod" value="Precio"><span>Precio</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Tiene imágenes propias de los productos?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="imagenes" value="Sí"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="imagenes" value="No"><span>No</span></label>
+          <label class="opt-item"><input type="radio" name="imagenes" value="Parcialmente"><span>Parcialmente</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Tiene tabla de talles o guía de medidas?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="talles" value="Sí"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="talles" value="No"><span>No</span></label>
+          <label class="opt-item"><input type="radio" name="talles" value="No aplica"><span>No aplica</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Existen productos con restricciones de venta online?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="restricciones-cat" value="Sí" onclick="toggleConditional('cond-restr',true)"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="restricciones-cat" value="No" onclick="toggleConditional('cond-restr',false)"><span>No</span></label>
+        </div>
+        <div class="conditional" id="cond-restr">
+          <label style="font-size:12px;font-weight:600;color:#2d3d2a;display:block;margin-bottom:5px">¿Cuáles?</label>
+          <textarea class="ta" id="f-restr-detalle" placeholder="Detallá los productos o categorías con restricciones"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 5. STOCK ══ -->
+  <div class="form-section collapsed" id="sec-5">
+    <div class="section-header" onclick="toggleSection(5)">
+      <div class="section-num">5</div>
+      <div><div class="section-title">Stock</div><div class="section-sub">Gestión, actualización y disponibilidad</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>¿Cómo gestiona actualmente el stock?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="gestion-stock" value="Sistema propio"><span>Sistema propio</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-stock" value="ERP"><span>ERP</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-stock" value="Plataforma eCommerce"><span>Plataforma eCommerce</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-stock" value="Excel"><span>Excel</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-stock" value="Manual"><span>Manual</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿El stock para eCommerce es exclusivo o compartido?</label>
+        <select class="sel" id="f-stock-tipo">
+          <option value="">— Seleccioná —</option>
+          <option>Exclusivo para eCommerce</option>
+          <option>Compartido con tiendas físicas</option>
+          <option>Compartido con mayoristas</option>
+          <option>Compartido con otros canales online</option>
+          <option>Mixto</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field half">
+          <label>¿Puede reservar stock para el Marketplace?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="stock-reserva" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="stock-reserva" value="No"><span>No</span></label>
+          </div>
+        </div>
+        <div class="field half">
+          <label>¿Puede informar stock actualizado diariamente?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="stock-diario" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="stock-diario" value="No"><span>No</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field half">
+          <label>¿El stock está separado por depósito / sucursal?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="stock-sep" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="stock-sep" value="No"><span>No</span></label>
+          </div>
+        </div>
+        <div class="field half">
+          <label>¿Maneja stock de seguridad?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="stock-seg" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="stock-seg" value="No"><span>No</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Con qué frecuencia puede actualizar el stock?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="frec-stock" value="Tiempo real"><span>Tiempo real</span></label>
+          <label class="opt-item"><input type="radio" name="frec-stock" value="Varias veces por día"><span>Varias veces / día</span></label>
+          <label class="opt-item"><input type="radio" name="frec-stock" value="Diario"><span>Diario</span></label>
+          <label class="opt-item"><input type="radio" name="frec-stock" value="Semanal"><span>Semanal</span></label>
+          <label class="opt-item"><input type="radio" name="frec-stock" value="Manual"><span>Manual</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 6. PRECIOS ══ -->
+  <div class="form-section collapsed" id="sec-6">
+    <div class="section-header" onclick="toggleSection(6)">
+      <div class="section-num">6</div>
+      <div><div class="section-title">Precios</div><div class="section-sub">Gestión y actualización de precios</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>¿Cómo gestiona actualmente los precios?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="gestion-precios" value="Sistema propio"><span>Sistema propio</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-precios" value="ERP"><span>ERP</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-precios" value="Plataforma eCommerce"><span>Plataforma eCommerce</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-precios" value="Excel"><span>Excel</span></label>
+          <label class="opt-item"><input type="radio" name="gestion-precios" value="Manual"><span>Manual</span></label>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field half">
+          <label>¿Puede enviar precios en formato Excel?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="precios-excel" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="precios-excel" value="No"><span>No</span></label>
+          </div>
+        </div>
+        <div class="field half">
+          <label>¿Puede actualizar precios con frecuencia diaria?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="precios-diario" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="precios-diario" value="No"><span>No</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field half">
+          <label>¿Maneja listas de precios diferenciadas por canal?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="precios-canal" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="precios-canal" value="No"><span>No</span></label>
+          </div>
+        </div>
+        <div class="field half">
+          <label>¿Los precios incluyen IVA / impuestos?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="precios-iva" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="precios-iva" value="No"><span>No</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Tiene promociones propias que deban contemplarse?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="promos" value="Sí" onclick="toggleConditional('cond-promos',true)"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="promos" value="No" onclick="toggleConditional('cond-promos',false)"><span>No</span></label>
+        </div>
+        <div class="conditional" id="cond-promos">
+          <textarea class="ta" id="f-promos-det" placeholder="Describí brevemente las promociones o condiciones especiales"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 7. LOGÍSTICA DIRECTA ══ -->
+  <div class="form-section collapsed" id="sec-7">
+    <div class="section-header" onclick="toggleSection(7)">
+      <div class="section-num">7</div>
+      <div><div class="section-title">Logística directa</div><div class="section-sub">Despacho y operador logístico</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>¿Realiza entregas a todo el país?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="entrega-pais" value="Sí" onclick="toggleConditional('cond-zonas',false)"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="entrega-pais" value="No" onclick="toggleConditional('cond-zonas',true)"><span>No</span></label>
+          <label class="opt-item"><input type="radio" name="entrega-pais" value="Parcialmente" onclick="toggleConditional('cond-zonas',true)"><span>Parcialmente</span></label>
+        </div>
+        <div class="conditional" id="cond-zonas">
+          <label style="font-size:12px;font-weight:600;color:#2d3d2a;display:block;margin-bottom:5px">¿Qué zonas cubre?</label>
+          <input class="inp" type="text" id="f-zonas" placeholder="Ej: AMBA, Buenos Aires, GBA">
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Desde dónde despacha los pedidos?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="despacho-origen" value="Depósito único"><span>Depósito único</span></label>
+          <label class="opt-item"><input type="radio" name="despacho-origen" value="Múltiples depósitos"><span>Múltiples depósitos</span></label>
+          <label class="opt-item"><input type="radio" name="despacho-origen" value="Tiendas físicas"><span>Tiendas físicas</span></label>
+          <label class="opt-item"><input type="radio" name="despacho-origen" value="Depósito + tiendas"><span>Depósito + tiendas</span></label>
+          <label class="opt-item"><input type="radio" name="despacho-origen" value="Otro"><span>Otro</span></label>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field half">
+          <label>Operador logístico que utiliza</label>
+          <input class="inp" type="text" id="f-operador" placeholder="Ej: Andreani, OCA, propio">
+        </div>
+        <div class="field half">
+          <label>¿Puede despachar pedidos diariamente?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="despacho-diario" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="despacho-diario" value="No"><span>No</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Tiempo promedio de despacho</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="tiempo-despacho" value="Mismo día"><span>Mismo día</span></label>
+          <label class="opt-item"><input type="radio" name="tiempo-despacho" value="24 horas"><span>24 horas</span></label>
+          <label class="opt-item"><input type="radio" name="tiempo-despacho" value="48 horas"><span>48 horas</span></label>
+          <label class="opt-item"><input type="radio" name="tiempo-despacho" value="Más de 48 horas"><span>Más de 48 horas</span></label>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field half">
+          <label>¿Puede compartir tracking automáticamente?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="tracking" value="Automático"><span>Automático</span></label>
+            <label class="opt-item"><input type="radio" name="tracking" value="Manual"><span>Manual</span></label>
+            <label class="opt-item"><input type="radio" name="tracking" value="No"><span>No</span></label>
+          </div>
+        </div>
+        <div class="field half">
+          <label>¿Tiene impresora de etiquetas?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="impresora" value="Zebra"><span>Zebra</span></label>
+            <label class="opt-item"><input type="radio" name="impresora" value="A4"><span>A4</span></label>
+            <label class="opt-item"><input type="radio" name="impresora" value="No"><span>No</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 8. RETIRO EN TIENDA ══ -->
+  <div class="form-section collapsed" id="sec-8">
+    <div class="section-header" onclick="toggleSection(8)">
+      <div class="section-num">8</div>
+      <div><div class="section-title">Retiro en tienda</div><div class="section-sub">Puntos de retiro y disponibilidad</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>¿Ofrece retiro en tienda o puntos de retiro?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="retiro" value="Sí" onclick="toggleConditional('cond-retiro',true)"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="retiro" value="No" onclick="toggleConditional('cond-retiro',false)"><span>No</span></label>
+        </div>
+        <div class="conditional" id="cond-retiro">
+          <div class="field" style="margin-bottom:10px">
+            <label style="font-size:12px;font-weight:600;color:#2d3d2a;display:block;margin-bottom:5px">¿Cuántos puntos de retiro?</label>
+            <input class="inp" type="number" id="f-puntos-retiro" min="1" placeholder="Cantidad">
+          </div>
+          <div class="options-group" style="gap:6px">
+            <label class="opt-item"><input type="checkbox" name="retiro-ops" value="Stock separado por tienda"><span>Stock separado por tienda / depósito</span></label>
+            <label class="opt-item"><input type="checkbox" name="retiro-ops" value="Puede confirmar disponibilidad por punto"><span>Puede confirmar disponibilidad por punto</span></label>
+            <label class="opt-item"><input type="checkbox" name="retiro-ops" value="Operación preparada para eCommerce en tienda"><span>Operación preparada para entregar pedidos eCommerce en tienda</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 9. DEVOLUCIONES ══ -->
+  <div class="form-section collapsed" id="sec-9">
+    <div class="section-header" onclick="toggleSection(9)">
+      <div class="section-num">9</div>
+      <div><div class="section-title">Devoluciones y logística inversa</div><div class="section-sub">Política y gestión de devoluciones</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field half">
+          <label>¿Acepta devoluciones?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="devol" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="devol" value="No"><span>No</span></label>
+            <label class="opt-item"><input type="radio" name="devol" value="Parcialmente"><span>Parcialmente</span></label>
+          </div>
+        </div>
+        <div class="field half">
+          <label>¿Cuenta con logística de devolución?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="log-devol" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="log-devol" value="No"><span>No</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Quién gestiona la logística inversa?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="resp-log-inv" value="Seller"><span>Seller</span></label>
+          <label class="opt-item"><input type="radio" name="resp-log-inv" value="Operador logístico"><span>Operador logístico</span></label>
+          <label class="opt-item"><input type="radio" name="resp-log-inv" value="Marketplace"><span>Marketplace</span></label>
+          <label class="opt-item"><input type="radio" name="resp-log-inv" value="Otro"><span>Otro</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Dirección de depósito de retorno de devoluciones</label>
+        <input class="inp" type="text" id="f-deposito-devol" placeholder="Calle, número, localidad, provincia">
+      </div>
+      <div class="field-row">
+        <div class="field half">
+          <label>¿Puede emitir nota de crédito por devolución?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="nota-credito" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="nota-credito" value="No"><span>No</span></label>
+          </div>
+        </div>
+        <div class="field half">
+          <label>Tiempo promedio para validar una devolución</label>
+          <select class="sel" id="f-tiempo-devol">
+            <option value="">— Seleccioná —</option>
+            <option>24 horas</option><option>48 horas</option>
+            <option>3 a 5 días hábiles</option><option>Más de 5 días</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Existen categorías o productos que no admiten cambios o devoluciones?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="restr-devol" value="Sí" onclick="toggleConditional('cond-restr-devol',true)"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="restr-devol" value="No" onclick="toggleConditional('cond-restr-devol',false)"><span>No</span></label>
+        </div>
+        <div class="conditional" id="cond-restr-devol">
+          <textarea class="ta" id="f-restr-devol-det" placeholder="Detallá cuáles y por qué"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 10. FACTURACIÓN ══ -->
+  <div class="form-section collapsed" id="sec-10">
+    <div class="section-header" onclick="toggleSection(10)">
+      <div class="section-num">10</div>
+      <div><div class="section-title">Facturación y documentación</div><div class="section-sub">Comprobantes y emisión fiscal</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field half">
+          <label>¿Puede emitir factura por cada pedido?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="factura" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="factura" value="No"><span>No</span></label>
+          </div>
+        </div>
+        <div class="field half">
+          <label>¿La factura se emite automáticamente o manualmente?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="factura-auto" value="Automáticamente"><span>Automáticamente</span></label>
+            <label class="opt-item"><input type="radio" name="factura-auto" value="Manualmente"><span>Manualmente</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Tipo de comprobante emitido</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="tipo-factura" value="Factura A"><span>Factura A</span></label>
+          <label class="opt-item"><input type="radio" name="tipo-factura" value="Factura B"><span>Factura B</span></label>
+          <label class="opt-item"><input type="radio" name="tipo-factura" value="Factura A y B"><span>Factura A y B</span></label>
+          <label class="opt-item"><input type="radio" name="tipo-factura" value="Ticket fiscal"><span>Ticket fiscal</span></label>
+          <label class="opt-item"><input type="radio" name="tipo-factura" value="Otro"><span>Otro</span></label>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field half">
+          <label>¿Puede enviar el comprobante digital al Marketplace?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="comp-digital" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="comp-digital" value="No"><span>No</span></label>
+          </div>
+        </div>
+        <div class="field half">
+          <label>¿Puede emitir nota de crédito por devolución parcial o total?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="nc-devol" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="nc-devol" value="No"><span>No</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Formato de factura y dónde se alojan <span class="opt">(PDF, sistema propio, etc.)</span></label>
+        <input class="inp" type="text" id="f-factura-formato" placeholder="Ej: PDF enviado por email, sistema X">
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 11. CONDICIONES COMERCIALES ══ -->
+  <div class="form-section collapsed" id="sec-11">
+    <div class="section-header" onclick="toggleSection(11)">
+      <div class="section-num">11</div>
+      <div><div class="section-title">Condiciones comerciales</div><div class="section-sub">Volumen estimado y condiciones financieras</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field half">
+          <label>Ticket promedio estimado (ARS) <span class="req">*</span></label>
+          <input class="inp" type="number" id="f-ticket" placeholder="Ej: 80000" min="0" required>
+          <span class="field-err" id="e-ticket">Campo requerido</span>
+        </div>
+        <div class="field half">
+          <label>GMV mensual estimado para primera etapa (ARS) <span class="req">*</span></label>
+          <input class="inp" type="number" id="f-gmv" placeholder="Ej: 5000000" min="0" required>
+          <span class="field-err" id="e-gmv">Campo requerido</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Cuotas máximas que estaría dispuesto a ofrecer</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="cuotas" value="1 cuota (contado)"><span>Contado</span></label>
+          <label class="opt-item"><input type="radio" name="cuotas" value="3 cuotas"><span>3 cuotas</span></label>
+          <label class="opt-item"><input type="radio" name="cuotas" value="6 cuotas"><span>6 cuotas</span></label>
+          <label class="opt-item"><input type="radio" name="cuotas" value="12 cuotas"><span>12 cuotas</span></label>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field half">
+          <label>¿Está dispuesto a operar con comisión marketplace?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="com-mkt" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="com-mkt" value="No"><span>No</span></label>
+            <label class="opt-item"><input type="radio" name="com-mkt" value="A evaluar"><span>A evaluar</span></label>
+          </div>
+        </div>
+        <div class="field half">
+          <label>¿Puede absorber costos financieros por ventas en cuotas?</label>
+          <div class="options-group horizontal">
+            <label class="opt-item"><input type="radio" name="costo-fin" value="Sí"><span>Sí</span></label>
+            <label class="opt-item"><input type="radio" name="costo-fin" value="No"><span>No</span></label>
+            <label class="opt-item"><input type="radio" name="costo-fin" value="A evaluar"><span>A evaluar</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Tiene restricciones comerciales relevantes?</label>
+        <div class="options-group horizontal">
+          <label class="opt-item"><input type="radio" name="restr-com" value="Sí" onclick="toggleConditional('cond-restr-com',true)"><span>Sí</span></label>
+          <label class="opt-item"><input type="radio" name="restr-com" value="No" onclick="toggleConditional('cond-restr-com',false)"><span>No</span></label>
+        </div>
+        <div class="conditional" id="cond-restr-com">
+          <textarea class="ta" id="f-restr-com-det" placeholder="Ej: restricciones de marca, precios mínimos, exclusividades"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 12. OBSERVACIONES ══ -->
+  <div class="form-section collapsed" id="sec-12">
+    <div class="section-header" onclick="toggleSection(12)">
+      <div class="section-num">12</div>
+      <div><div class="section-title">Observaciones finales</div><div class="section-sub">Particularidades y comentarios adicionales</div></div>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>¿Hay alguna particularidad operativa, técnica o comercial que debamos considerar?</label>
+        <p class="hint">Cualquier información que no hayamos contemplado y que sea relevante para evaluar la integración.</p>
+        <textarea class="ta" id="f-particularidad" style="min-height:100px" placeholder="Describí cualquier particularidad importante…"></textarea>
+      </div>
+      <div class="field">
+        <label>Comentarios adicionales o preguntas</label>
+        <textarea class="ta" id="f-comentarios" style="min-height:80px" placeholder="¿Hay algo que quieras preguntarnos o comentarnos antes de la propuesta?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SUBMIT ══ -->
+  <div class="submit-area" id="submit-area">
+    <div class="submit-disclaimer">
+      Al enviar este formulario, aceptás que <strong>Sporting Marketplace</strong> utilice esta información para evaluar tu perfil como seller y elaborar una propuesta comercial personalizada. Los datos no serán compartidos con terceros.
+    </div>
+    <button type="submit" class="btn-submit" id="btn-submit">
+      <div class="spin"></div>
+      <span class="btn-txt">Enviar relevamiento →</span>
+    </button>
+    <div class="error-box" id="err-box">No se pudo enviar el formulario. Por favor revisá los campos requeridos e intentá nuevamente.</div>
+  </div>
+
+  <!-- ══ SUCCESS ══ -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">✅</div>
+    <div class="success-title">¡Relevamiento enviado!</div>
+    <p class="success-body">Gracias por completar el formulario. Nuestro equipo lo analizará y te enviará una propuesta personalizada en menos de <strong>72 horas hábiles</strong> a tu email de contacto.</p>
+  </div>
+
+  </form>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   CONFIG — Apps Script URL
+   
+   Para conectar con Google Sheets:
+   1. En tu Google Sheet → Extensiones → Apps Script
+   2. Pegá el código del archivo apps_script.gs adjunto
+   3. Publicá como Web App (acceso: Anyone)
+   4. Copiá la URL de la Web App y pegála abajo
+═══════════════════════════════════════════════ */
+const APPS_SCRIPT_URL = 'TU_APPS_SCRIPT_URL_AQUI';
+// ← Reemplazá con la URL de tu Apps Script publicado como Web App.
+//   Si dejás este placeholder, el formulario simula el envío localmente.
+
+/* ── SECCIONES ── */
+const SECTION_LABELS = [
+  'Datos generales','Perfil comercial','Plataforma','Catálogo',
+  'Stock','Precios','Logística','Retiro','Devoluciones',
+  'Facturación','Condiciones','Observaciones'
+];
+
+let sectionsCompleted = new Set();
+let currentOpen = 1;
+
+/* ── INIT ── */
+window.addEventListener('DOMContentLoaded', () => {
+  buildProgressSections();
+  updateProgress();
+  // Observar cambios en todos los inputs para trackear completitud
+  document.querySelectorAll('input,select,textarea').forEach(el => {
+    el.addEventListener('change', updateProgress);
+    el.addEventListener('input', updateProgress);
+  });
+});
+
+function buildProgressSections() {
+  const container = document.getElementById('pb-sections');
+  SECTION_LABELS.forEach((lbl, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = i === 0 ? 'pb-sec active' : 'pb-sec pending';
+    btn.id = `pb-s${i+1}`;
+    btn.textContent = lbl;
+    btn.onclick = () => { toggleSection(i+1); };
+    container.appendChild(btn);
+  });
+}
+
+function toggleSection(n) {
+  const sec = document.getElementById(`sec-${n}`);
+  if (!sec) return;
+  const isOpen = !sec.classList.contains('collapsed');
+  if (isOpen) {
+    sec.classList.add('collapsed');
+  } else {
+    // Cerrar la actual si es diferente (opcional — dejamos múltiples abiertos)
+    sec.classList.remove('collapsed');
+    sec.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  currentOpen = n;
+  updatePbActive(n);
+}
+
+function updatePbActive(n) {
+  document.querySelectorAll('.pb-sec').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById(`pb-s${n}`);
+  if (btn) btn.classList.add('active');
+}
+
+function updateProgress() {
+  // Marcar sección como completa si tiene al menos un campo con valor
+  for (let i = 1; i <= 12; i++) {
+    const sec = document.getElementById(`sec-${i}`);
+    if (!sec) continue;
+    const hasValue = [...sec.querySelectorAll('input:not([type=radio]):not([type=checkbox]),select,textarea')]
+      .some(el => el.value.trim() !== '') ||
+      [...sec.querySelectorAll('input[type=radio]:checked,input[type=checkbox]:checked')].length > 0;
+    const btn = document.getElementById(`pb-s${i}`);
+    if (hasValue) {
+      sectionsCompleted.add(i);
+      if (btn) { btn.classList.add('done'); btn.classList.remove('pending','active'); }
+    } else {
+      sectionsCompleted.delete(i);
+      if (btn && !btn.classList.contains('active')) {
+        btn.classList.remove('done'); btn.classList.add('pending');
+      }
+    }
+  }
+  const pct = Math.round(sectionsCompleted.size / 12 * 100);
+  document.getElementById('pb-fill').style.width = pct + '%';
+  document.getElementById('pb-count').textContent = `${sectionsCompleted.size} / 12 secciones`;
+}
+
+/* ── CONDITIONAL ── */
+function toggleConditional(id, show) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('vis', show);
+}
+
+/* ── RECOLECTAR DATOS ── */
+function collectFormData() {
+  const getVal   = id => (document.getElementById(id)?.value || '').trim();
+  const getRadio = name => document.querySelector(`input[name="${name}"]:checked`)?.value || '';
+  const getCheckboxes = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(c=>c.value).join(', ');
+
+  return {
+    // META
+    fecha_envio: new Date().toISOString().split('T')[0],
+    estado_macro: 'Relevamiento recibido',
+    etapa_actual: 'relevamiento',
+
+    // Bloque 1
+    nombre:              getVal('f-nombre'),
+    razon_social:        getVal('f-razon'),
+    cuit:                getVal('f-cuit'),
+    web:                 getVal('f-web'),
+    pais_provincia:      getVal('f-pais'),
+    contacto_nombre:     getVal('f-cont-com-nombre'),
+    contacto_email:      getVal('f-cont-com-email'),
+    contacto_tel:        getVal('f-cont-com-tel'),
+    contacto_tec_nombre: getVal('f-cont-tec-nombre'),
+    contacto_tec_email:  getVal('f-cont-tec-email'),
+
+    // Bloque 2
+    tipo_empresa:        getRadio('tipo-empresa'),
+    categorias:          getVal('f-categorias'),
+    skus_estimados:      getRadio('skus-est'),
+    variantes:           getRadio('variantes'),
+    exp_marketplace:     getRadio('exp-mkt'),
+    mkt_cuales:          getVal('f-mkt-cuales'),
+    pedidos_diarios:     getRadio('pedidos-dia'),
+
+    // Bloque 3
+    plataforma:          getVal('f-plataforma'),
+    erp:                 getRadio('erp'),
+    erp_cual:            getVal('f-erp-cual'),
+    api:                 getRadio('api'),
+    equipo_tec:          getRadio('equipo-tec'),
+    frec_actualizacion:  getRadio('frec-act'),
+
+    // Bloque 4
+    gestion_catalogo:    getRadio('gestion-cat'),
+    catalogo_excel:      getRadio('cat-excel'),
+    info_prod_completa:  getCheckboxes('info-prod'),
+    imagenes:            getRadio('imagenes'),
+    tabla_talles:        getRadio('talles'),
+    restricciones_cat:   getRadio('restricciones-cat'),
+    restricciones_cat_det: getVal('f-restr-detalle'),
+
+    // Bloque 5
+    gestion_stock:       getRadio('gestion-stock'),
+    stock_tipo:          getVal('f-stock-tipo'),
+    stock_reserva:       getRadio('stock-reserva'),
+    stock_diario:        getRadio('stock-diario'),
+    stock_separado:      getRadio('stock-sep'),
+    stock_seguridad:     getRadio('stock-seg'),
+    frec_stock:          getRadio('frec-stock'),
+
+    // Bloque 6
+    gestion_precios:     getRadio('gestion-precios'),
+    precios_excel:       getRadio('precios-excel'),
+    precios_diario:      getRadio('precios-diario'),
+    precios_canal:       getRadio('precios-canal'),
+    precios_iva:         getRadio('precios-iva'),
+    promos:              getRadio('promos'),
+    promos_det:          getVal('f-promos-det'),
+
+    // Bloque 7
+    entrega_pais:        getRadio('entrega-pais'),
+    zonas:               getVal('f-zonas'),
+    despacho_origen:     getRadio('despacho-origen'),
+    operador_logistico:  getVal('f-operador'),
+    despacho_diario:     getRadio('despacho-diario'),
+    tiempo_despacho:     getRadio('tiempo-despacho'),
+    tracking:            getRadio('tracking'),
+    impresora:           getRadio('impresora'),
+
+    // Bloque 8
+    retiro_tienda:       getRadio('retiro'),
+    puntos_retiro:       getVal('f-puntos-retiro'),
+    retiro_ops:          getCheckboxes('retiro-ops'),
+
+    // Bloque 9
+    acepta_devol:        getRadio('devol'),
+    log_devol:           getRadio('log-devol'),
+    resp_log_inv:        getRadio('resp-log-inv'),
+    deposito_devol:      getVal('f-deposito-devol'),
+    nota_credito:        getRadio('nota-credito'),
+    tiempo_devol:        getVal('f-tiempo-devol'),
+    restr_devol:         getRadio('restr-devol'),
+    restr_devol_det:     getVal('f-restr-devol-det'),
+
+    // Bloque 10
+    emite_factura:       getRadio('factura'),
+    factura_auto:        getRadio('factura-auto'),
+    tipo_factura:        getRadio('tipo-factura'),
+    comp_digital:        getRadio('comp-digital'),
+    nc_devol:            getRadio('nc-devol'),
+    factura_formato:     getVal('f-factura-formato'),
+
+    // Bloque 11
+    ticket_promedio:     getVal('f-ticket'),
+    gmv_estimado:        getVal('f-gmv'),
+    cuotas:              getRadio('cuotas'),
+    comision_mkt:        getRadio('com-mkt'),
+    costo_financiero:    getRadio('costo-fin'),
+    restricciones_com:   getRadio('restr-com'),
+    restricciones_com_det: getVal('f-restr-com-det'),
+
+    // Bloque 12
+    particularidades:    getVal('f-particularidad'),
+    comentarios:         getVal('f-comentarios'),
+  };
+}
+
+/* ── VALIDAR REQUERIDOS ── */
+function validate() {
+  const required = [
+    {id:'f-nombre',         errId:'e-nombre'},
+    {id:'f-razon',          errId:'e-razon'},
+    {id:'f-cuit',           errId:'e-cuit'},
+    {id:'f-pais',           errId:'e-pais'},
+    {id:'f-cont-com-nombre',errId:'e-cont-com-nombre'},
+    {id:'f-cont-com-email', errId:'e-cont-com-email'},
+    {id:'f-cont-com-tel',   errId:'e-cont-com-tel'},
+    {id:'f-categorias',     errId:'e-categorias'},
+    {id:'f-ticket',         errId:'e-ticket'},
+    {id:'f-gmv',            errId:'e-gmv'},
+  ];
+  let ok = true;
+  required.forEach(({id, errId}) => {
+    const el  = document.getElementById(id);
+    const err = document.getElementById(errId);
+    if (!el) return;
+    const empty = !el.value.trim();
+    el.classList.toggle('error', empty);
+    if (err) err.classList.toggle('vis', empty);
+    if (empty) ok = false;
+  });
+  return ok;
+}
+
+/* ── SUBMIT ── */
+document.getElementById('form-relevamiento').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!validate()) {
+    document.getElementById('err-box').classList.add('vis');
+    // Abrir sección 1 si hay errores ahí
+    document.getElementById('sec-1').classList.remove('collapsed');
+    document.getElementById('sec-11').classList.remove('collapsed');
+    document.querySelector('.inp.error')?.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  document.getElementById('err-box').classList.remove('vis');
+
+  const btn = document.getElementById('btn-submit');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  const data = collectFormData();
+
+  try {
+    if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('TU_APPS_SCRIPT')) {
+      // MODO DEMO — simular envío
+      await new Promise(r => setTimeout(r, 1500));
+      console.log('DEMO — datos que se enviarían:', data);
+      showSuccess();
+    } else {
+      // ENVÍO REAL al Apps Script
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        // No se pone Content-Type para evitar CORS preflight con Apps Script
+      });
+      const json = await res.json();
+      if (json.status === 'ok') {
+        showSuccess();
+      } else {
+        throw new Error(json.message || 'Error del servidor');
+      }
+    }
+  } catch(err) {
+    console.error(err);
+    document.getElementById('err-box').textContent = `Error al enviar: ${err.message}. Por favor intentá de nuevo.`;
+    document.getElementById('err-box').classList.add('vis');
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+});
+
+function showSuccess() {
+  document.getElementById('submit-area').style.display = 'none';
+  document.querySelectorAll('.form-section').forEach(s => {
+    s.classList.add('collapsed');
+    s.style.opacity = '.5';
+    s.style.pointerEvents = 'none';
+  });
+  const succ = document.getElementById('success-screen');
+  succ.classList.add('vis');
+  succ.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
