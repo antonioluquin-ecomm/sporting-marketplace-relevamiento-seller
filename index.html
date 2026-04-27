@@ -91,6 +91,73 @@
         border-color: rgba(217, 64, 64, 0.32);
         color: #f2a0a0;
       }
+      .seller-identity {
+        display: none;
+        align-items: center;
+        gap: 14px;
+        margin-top: 16px;
+        padding: 14px 16px;
+        background: rgba(255, 255, 255, 0.035);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+      }
+      .seller-identity.visible {
+        display: flex;
+      }
+      .seller-logo {
+        width: 54px;
+        height: 54px;
+        border-radius: 12px;
+        object-fit: contain;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid var(--line);
+        padding: 6px;
+        flex-shrink: 0;
+      }
+      .seller-logo.hidden {
+        display: none;
+      }
+      .seller-initials {
+        width: 54px;
+        height: 54px;
+        border-radius: 12px;
+        background: rgba(94, 168, 50, 0.14);
+        border: 1px solid rgba(94, 168, 50, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #b7e69d;
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 24px;
+        font-weight: 900;
+        flex-shrink: 0;
+      }
+      .seller-eyebrow {
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--g);
+        margin-bottom: 2px;
+      }
+      .seller-name {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 24px;
+        font-weight: 900;
+        line-height: 1;
+        text-transform: uppercase;
+        color: var(--text);
+      }
+      .seller-meta {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .seller-id-small {
+        font-size: 11px;
+        color: var(--muted2);
+        margin-top: 3px;
+      }
       form {
         display: grid;
         gap: 16px;
@@ -238,6 +305,20 @@
           integración, operación y condiciones comerciales dentro del
           Marketplace Sporting.
         </p>
+        <div id="sellerIdentity" class="seller-identity">
+          <img
+            id="sellerLogo"
+            class="seller-logo hidden"
+            alt="Logo del seller"
+          />
+          <div id="sellerInitials" class="seller-initials">—</div>
+          <div>
+            <div class="seller-eyebrow">Relevamiento asociado a</div>
+            <div id="sellerNameView" class="seller-name">Validando seller…</div>
+            <div id="sellerMetaView" class="seller-meta"></div>
+            <div id="sellerIdView" class="seller-id-small"></div>
+          </div>
+        </div>
         <div id="sellerChip" class="seller-chip">
           Validando link del seller…
         </div>
@@ -811,29 +892,235 @@
       const APPS_SCRIPT_URL =
         "https://script.google.com/macros/s/AKfycbz3w2-tPJxceZ1jTujYl9PciSoemcatupO8dza6m08TfXHt_wbuogIGNcG93s_NFcRh/exec";
 
+      // CSV publicado de la hoja "sellers". Se usa solo para mostrar logo/nombre del seller.
+      const SELLERS_CSV_URL =
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwd-qIMhoH1poJpaTZqN-7O5IGAfPDTxslBAX8LCPogTkwheW2vWsq59JkvvYakM8ndCKgUQualQyi/pub?gid=899415596&single=true&output=csv";
+
       const params = new URLSearchParams(window.location.search);
       const sellerId = (params.get("seller_id") || "").trim();
+
       const chip = document.getElementById("sellerChip");
       const sellerInput = document.getElementById("seller_id");
       const submitBtn = document.getElementById("submitBtn");
       const statusMsg = document.getElementById("statusMsg");
+      const sellerIdentity = document.getElementById("sellerIdentity");
+      const sellerLogo = document.getElementById("sellerLogo");
+      const sellerInitials = document.getElementById("sellerInitials");
+      const sellerNameView = document.getElementById("sellerNameView");
+      const sellerMetaView = document.getElementById("sellerMetaView");
+      const sellerIdView = document.getElementById("sellerIdView");
 
       function setStatus(msg, type = "") {
         statusMsg.textContent = msg;
         statusMsg.className = "status" + (type ? " " + type : "");
       }
 
-      if (!sellerId) {
-        chip.textContent = "Link inválido: falta seller_id";
-        chip.classList.add("err");
-        submitBtn.disabled = true;
-        setStatus(
-          "No se detectó seller_id en la URL. Solicitá un link válido al equipo de Sporting.",
-          "err",
+      function esc(s) {
+        return String(s || "").replace(
+          /[&<>'"]/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              "'": "&#39;",
+              '"': "&quot;",
+            })[c],
         );
-      } else {
+      }
+
+      function norm(s) {
+        return String(s || "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "_")
+          .replace(/^_+|_+$/g, "");
+      }
+
+      function safeUrl(u) {
+        const v = String(u || "").trim();
+        if (!v) return "";
+        try {
+          const url = new URL(v, window.location.href);
+          return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+        } catch (e) {
+          return "";
+        }
+      }
+
+      function initials(name) {
+        const parts = String(name || "")
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean);
+        if (!parts.length) return "—";
+        if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+      }
+
+      function parseCSV(text) {
+        const rows = [];
+        let row = [],
+          cell = "",
+          q = false;
+        for (let i = 0; i < text.length; i++) {
+          const c = text[i],
+            n = text[i + 1];
+          if (c === '"') {
+            if (q && n === '"') {
+              cell += '"';
+              i++;
+            } else q = !q;
+          } else if (c === "," && !q) {
+            row.push(cell);
+            cell = "";
+          } else if ((c === "\n" || c === "\r") && !q) {
+            if (c === "\r" && n === "\n") i++;
+            row.push(cell);
+            rows.push(row);
+            row = [];
+            cell = "";
+          } else cell += c;
+        }
+        row.push(cell);
+        if (row.length > 1 || row[0] !== "") rows.push(row);
+        return rows;
+      }
+
+      function mapRows(matrix) {
+        const valid = matrix.filter((r) =>
+          r.some((v) => String(v || "").trim()),
+        );
+        const hi = valid.findIndex((r) =>
+          r.some((v) => norm(v).includes("seller_id")),
+        );
+        if (hi === -1) return [];
+        const headers = valid[hi].map((h) => norm(h));
+        return valid
+          .slice(hi + 1)
+          .map((r) => {
+            const o = {};
+            headers.forEach((h, i) => (o[h] = String(r[i] || "").trim()));
+            return o;
+          })
+          .filter((o) => o.seller_id);
+      }
+
+      function readSellerName(s) {
+        return (
+          s.seller_nombre ||
+          s.nombre ||
+          s.nombre_marca ||
+          s.nombre___marca ||
+          ""
+        );
+      }
+
+      function renderSellerIdentity(seller) {
+        const name = readSellerName(seller) || sellerId;
+        const category = seller.categoria || seller.categoria_principal || "";
+        const site = seller.sitio_objetivo || seller.sitio || "";
+        const logoUrl = safeUrl(
+          seller.logo_url || seller.logo || seller.url_logo,
+        );
+
+        sellerNameView.textContent = name;
+        sellerMetaView.textContent = [category, site]
+          .filter(Boolean)
+          .join(" · ");
+        sellerIdView.textContent = "ID interno: " + sellerId;
+        sellerInitials.textContent = initials(name);
+
+        if (logoUrl) {
+          sellerLogo.src = logoUrl;
+          sellerLogo.onload = () => {
+            sellerLogo.classList.remove("hidden");
+            sellerInitials.classList.add("hidden");
+          };
+          sellerLogo.onerror = () => {
+            sellerLogo.classList.add("hidden");
+            sellerInitials.classList.remove("hidden");
+          };
+        } else {
+          sellerLogo.classList.add("hidden");
+          sellerInitials.classList.remove("hidden");
+        }
+
+        sellerIdentity.classList.add("visible");
+        chip.classList.add("hidden");
+
+        // Prefill suave: ayuda al seller, pero puede editarlo si corresponde.
+        const nombreInput = document.querySelector('[name="nombre"]');
+        const categoriasInput = document.querySelector('[name="categorias"]');
+        const webInput = document.querySelector('[name="web"]');
+        const plataformaInput = document.querySelector('[name="plataforma"]');
+        if (nombreInput && !nombreInput.value && name !== sellerId)
+          nombreInput.value = name;
+        if (categoriasInput && !categoriasInput.value && category)
+          categoriasInput.value = category;
+        if (webInput && !webInput.value && seller.seller_url)
+          webInput.value = seller.seller_url;
+        if (plataformaInput && !plataformaInput.value && seller.plataforma)
+          plataformaInput.value = seller.plataforma;
+      }
+
+      async function loadSellerIdentity() {
+        if (!sellerId) {
+          chip.textContent = "Link inválido: falta seller_id";
+          chip.classList.add("err");
+          submitBtn.disabled = true;
+          setStatus(
+            "No se detectó seller_id en la URL. Solicitá un link válido al equipo de Sporting.",
+            "err",
+          );
+          return;
+        }
+
         sellerInput.value = sellerId;
-        chip.textContent = "Relevamiento asociado a " + sellerId;
+        chip.textContent = "Validando seller " + sellerId + "…";
+
+        if (!SELLERS_CSV_URL) {
+          chip.textContent = "Relevamiento asociado a " + sellerId;
+          return;
+        }
+
+        try {
+          const res = await fetch(SELLERS_CSV_URL + "&_ts=" + Date.now(), {
+            cache: "no-store",
+          });
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          const rows = mapRows(parseCSV(await res.text()));
+          const seller = rows.find(
+            (r) =>
+              String(r.seller_id || "")
+                .trim()
+                .toUpperCase() === sellerId.toUpperCase(),
+          );
+
+          if (!seller) {
+            chip.textContent =
+              "No se encontró el seller " + sellerId + " en la hoja sellers";
+            chip.classList.add("err");
+            submitBtn.disabled = true;
+            setStatus(
+              "El seller_id existe en el link, pero no fue encontrado en la hoja sellers. Revisá el ID o la publicación del CSV.",
+              "err",
+            );
+            return;
+          }
+
+          renderSellerIdentity(seller);
+          setStatus(
+            "Completá el formulario. El relevamiento quedará asociado al seller indicado arriba.",
+          );
+        } catch (err) {
+          console.warn(err);
+          chip.textContent = "Relevamiento asociado a " + sellerId;
+          setStatus(
+            "No se pudo cargar el nombre/logo del seller, pero el formulario puede enviarse con el ID interno.",
+          );
+        }
       }
 
       function formToObject(form) {
@@ -891,6 +1178,8 @@
             submitBtn.disabled = false;
           }
         });
+
+      loadSellerIdentity();
     </script>
   </body>
 </html>
