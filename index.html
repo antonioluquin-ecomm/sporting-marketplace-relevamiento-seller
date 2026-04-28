@@ -10,16 +10,57 @@
   <style>
     :root{--g:#5ea832;--g2:#4a8a26;--bg:#0d110d;--panel:#141a13;--panel2:#192018;--line:rgba(255,255,255,.09);--text:#e8ede4;--muted:#9dac94;--muted2:#687662;--warn:#ffb74d;--danger:#d94040;--info:#64b5f6;--teal:#4db6ac}
     *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
     body{font-family:Barlow,system-ui,sans-serif;background:linear-gradient(180deg,#0b0f0b,#111711);color:var(--text);min-height:100vh;padding:28px 16px}
-    .wrap{max-width:980px;margin:0 auto}
+    .wrap{max-width:1040px;margin:0 auto}
     .hero{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:18px;box-shadow:0 18px 60px rgba(0,0,0,.28)}
     .brand{font-family:"Barlow Condensed",sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:.04em;font-size:25px;margin-bottom:6px}.brand span{color:var(--g)}
-    h1{font-family:"Barlow Condensed",sans-serif;font-size:34px;line-height:1;text-transform:uppercase;margin-bottom:8px}
-    p{color:var(--muted);font-size:14px;line-height:1.55}.seller-chip{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:rgba(94,168,50,.12);border:1px solid rgba(94,168,50,.28);color:#b7e69d;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700}.seller-chip.err{background:rgba(217,64,64,.12);border-color:rgba(217,64,64,.32);color:#f2a0a0}.seller-identity{display:none;align-items:center;gap:14px;margin-top:16px;padding:14px 16px;background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:14px}.seller-identity.visible{display:flex}.seller-logo{width:54px;height:54px;border-radius:12px;object-fit:contain;background:rgba(255,255,255,.07);border:1px solid var(--line);padding:6px;flex-shrink:0}.seller-logo.hidden{display:none}.seller-initials{width:54px;height:54px;border-radius:12px;background:rgba(94,168,50,.14);border:1px solid rgba(94,168,50,.3);display:flex;align-items:center;justify-content:center;color:#b7e69d;font-family:"Barlow Condensed",sans-serif;font-size:24px;font-weight:900;flex-shrink:0}.seller-eyebrow{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:2px}.seller-name{font-family:"Barlow Condensed",sans-serif;font-size:24px;font-weight:900;line-height:1;text-transform:uppercase;color:var(--text)}.seller-meta{font-size:12px;color:var(--muted);margin-top:4px}.seller-id-small{font-size:11px;color:var(--muted2);margin-top:3px}
-    form{display:grid;gap:16px}.section{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}.section-title{padding:15px 18px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--line);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--g)}
-    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:18px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-size:12px;font-weight:700;color:var(--text)}small{color:var(--muted2);font-size:11px;line-height:1.35}input,select,textarea{font-family:Barlow,sans-serif;width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:11px 12px;font-size:14px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(94,168,50,.13)}textarea{min-height:90px;resize:vertical}select option{background:#111711}.req::after{content:" *";color:var(--warn)}
-    .actions{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:2px}.btn{border:none;border-radius:12px;background:var(--g);color:white;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:13px 22px;cursor:pointer}.btn:hover{background:var(--g2)}.btn:disabled{opacity:.55;cursor:not-allowed}.status{font-size:13px;color:var(--muted);line-height:1.4}.status.ok{color:#b7e69d}.status.err{color:#f2a0a0}
-    .hidden{display:none!important}@media(max-width:720px){body{padding:16px 10px}.grid{grid-template-columns:1fr}.actions{flex-direction:column;align-items:stretch}.btn{width:100%}h1{font-size:29px}}
+    h1{font-family:"Barlow Condensed",sans-serif;font-size:36px;line-height:1;text-transform:uppercase;margin-bottom:8px}
+    p{color:var(--muted);font-size:14px;line-height:1.55}
+    .intro-note{display:grid;gap:8px;margin-top:16px;padding:14px 16px;background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:14px}
+    .intro-note strong{font-size:13px;color:var(--text)}
+    .seller-chip{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:rgba(94,168,50,.12);border:1px solid rgba(94,168,50,.28);color:#b7e69d;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700}
+    .seller-chip.err{background:rgba(217,64,64,.12);border-color:rgba(217,64,64,.32);color:#f2a0a0}
+    .seller-identity{display:none;align-items:center;gap:14px;margin-top:16px;padding:14px 16px;background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:14px}
+    .seller-identity.visible{display:flex}
+    .seller-logo{width:54px;height:54px;border-radius:12px;object-fit:contain;background:rgba(255,255,255,.07);border:1px solid var(--line);padding:6px;flex-shrink:0}
+    .seller-logo.hidden{display:none}
+    .seller-initials{width:54px;height:54px;border-radius:12px;background:rgba(94,168,50,.14);border:1px solid rgba(94,168,50,.3);display:flex;align-items:center;justify-content:center;color:#b7e69d;font-family:"Barlow Condensed",sans-serif;font-size:24px;font-weight:900;flex-shrink:0}
+    .seller-eyebrow{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:2px}
+    .seller-name{font-family:"Barlow Condensed",sans-serif;font-size:24px;font-weight:900;line-height:1;text-transform:uppercase;color:var(--text)}
+    .seller-meta{font-size:12px;color:var(--muted);margin-top:4px}
+    .seller-id-small{font-size:11px;color:var(--muted2);margin-top:3px}
+    .progress-box{position:sticky;top:0;z-index:20;margin-bottom:16px;background:rgba(13,17,13,.9);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+    .progress-top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}
+    .progress-label{font-size:12px;font-weight:800;color:var(--text);letter-spacing:.06em;text-transform:uppercase}
+    .progress-percent{font-size:12px;color:var(--muted);font-weight:700}
+    .bar{height:8px;background:rgba(255,255,255,.07);border-radius:999px;overflow:hidden}
+    .bar span{display:block;height:100%;width:0%;background:var(--g);transition:width .25s ease}
+    form{display:grid;gap:16px}
+    .section{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+    .section-title{padding:15px 18px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--line);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--g);display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .section-title span:last-child{color:var(--muted2);font-size:11px;letter-spacing:.08em}
+    .section-help{padding:12px 18px 0;color:var(--muted);font-size:13px;line-height:1.45}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:18px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field.full{grid-column:1/-1}
+    label{font-size:12px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px}
+    .tip{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:999px;background:rgba(100,181,246,.12);border:1px solid rgba(100,181,246,.28);color:#a8d4fb;font-size:11px;font-weight:800;cursor:help;position:relative;flex-shrink:0}
+    .tip:hover::after,.tip:focus::after{content:attr(data-tip);position:absolute;left:50%;bottom:130%;transform:translateX(-50%);width:min(290px,80vw);background:#0f150f;border:1px solid rgba(255,255,255,.16);color:var(--text);border-radius:10px;padding:10px 11px;font-size:12px;font-weight:500;line-height:1.35;box-shadow:0 18px 40px rgba(0,0,0,.35);z-index:40;text-transform:none;letter-spacing:0}
+    small{color:var(--muted2);font-size:11px;line-height:1.35}
+    input,select,textarea{font-family:Barlow,sans-serif;width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:11px 12px;font-size:14px;outline:none}
+    input:focus,select:focus,textarea:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(94,168,50,.13)}
+    textarea{min-height:90px;resize:vertical}
+    select option{background:#111711}
+    .req::after{content:" *";color:var(--warn)}
+    .actions{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:2px}
+    .btn{border:none;border-radius:12px;background:var(--g);color:white;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:13px 22px;cursor:pointer}
+    .btn:hover{background:var(--g2)}.btn:disabled{opacity:.55;cursor:not-allowed}
+    .status{font-size:13px;color:var(--muted);line-height:1.4}
+    .status.ok{color:#b7e69d}.status.err{color:#f2a0a0}
+    .hidden{display:none!important}
+    .conditional.hidden{display:none!important}
+    @media(max-width:720px){body{padding:16px 10px}.grid{grid-template-columns:1fr}.actions{flex-direction:column;align-items:stretch}.btn{width:100%}h1{font-size:30px}.progress-box{top:0;border-radius:12px}.seller-identity{align-items:flex-start}}
   </style>
 </head>
 <body>
@@ -27,7 +68,11 @@
     <header class="hero">
       <div class="brand">Sporting <span>Marketplace</span></div>
       <h1>Relevamiento de Seller</h1>
-      <p>Completá la información solicitada para evaluar el modelo de integración, operación y condiciones comerciales dentro del Marketplace Sporting.</p>
+      <p>Este formulario nos permite conocer la operación, tecnología, catálogo, stock, logística y condiciones comerciales del seller para definir el modelo de integración más adecuado dentro de Sporting Marketplace.</p>
+      <div class="intro-note">
+        <strong>Antes de completar</strong>
+        <p>Respondé con la información actual de tu operación. Si algún punto todavía no está definido, seleccioná “A definir” o indicá el detalle en observaciones. Los campos marcados con asterisco son obligatorios.</p>
+      </div>
       <div id="sellerIdentity" class="seller-identity">
         <img id="sellerLogo" class="seller-logo hidden" alt="Logo del seller" />
         <div id="sellerInitials" class="seller-initials">—</div>
@@ -41,121 +86,178 @@
       <div id="sellerChip" class="seller-chip">Validando link del seller…</div>
     </header>
 
+    <div class="progress-box">
+      <div class="progress-top">
+        <div class="progress-label" id="progressLabel">Avance del formulario</div>
+        <div class="progress-percent" id="progressPercent">0%</div>
+      </div>
+      <div class="bar"><span id="progressBar"></span></div>
+    </div>
+
     <form id="sellerForm">
       <input type="hidden" name="seller_id" id="seller_id" />
 
       <section class="section">
-        <div class="section-title">1. Datos generales</div>
+        <div class="section-title"><span>1. Datos generales del seller</span><span>Identificación</span></div>
+        <p class="section-help">Datos básicos para identificar al seller y entender su perfil comercial.</p>
         <div class="grid">
-          <div class="field"><label class="req">Nombre comercial</label><input name="nombre" required></div>
+          <div class="field"><label class="req">Nombre comercial <span class="tip" tabindex="0" data-tip="Nombre con el que la marca o empresa se presenta comercialmente al cliente.">?</span></label><input name="nombre" required></div>
           <div class="field"><label>Razón social</label><input name="razon_social"></div>
-          <div class="field"><label>CUIT</label><input name="cuit"></div>
+          <div class="field"><label>CUIT</label><input name="cuit" inputmode="numeric" placeholder="Ej: 30-XXXXXXXX-X"></div>
           <div class="field"><label>Sitio web</label><input name="web" type="url" placeholder="https://..."></div>
-          <div class="field"><label>País / provincia</label><input name="pais_provincia"></div>
+          <div class="field"><label>País / provincia</label><input name="pais_provincia" placeholder="Ej: Argentina / Tucumán"></div>
           <div class="field"><label>Tipo de empresa</label><select name="tipo_empresa"><option value="">Seleccionar</option><option>Marca</option><option>Distribuidor</option><option>Retailer</option><option>Fabricante</option><option>Otro</option></select></div>
-          <div class="field full"><label class="req">Categorías principales</label><input name="categorias" required placeholder="Ej: Calzado, Indumentaria, Accesorios"></div>
+          <div class="field"><label>Canal principal de venta actual</label><select name="canal_principal"><option value="">Seleccionar</option><option>Tienda online propia</option><option>Tiendas físicas</option><option>Mayorista</option><option>Marketplaces</option><option>Redes sociales</option><option>Otro</option></select></div>
+          <div class="field"><label>Opera en otros marketplaces</label><select name="opera_marketplaces" data-toggle="marketplaces_det"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>En evaluación</option></select></div>
+          <div class="field full conditional hidden" data-show-if="opera_marketplaces:Sí,En evaluación" id="marketplaces_det"><label>Marketplaces donde opera o está evaluando operar</label><input name="marketplaces_detalle" placeholder="Ej: Mercado Libre, Dafiti, marketplace propio, otros"></div>
+          <div class="field full"><label class="req">Categorías principales</label><input name="categorias" required placeholder="Ej: Calzado, indumentaria, accesorios"></div>
         </div>
       </section>
 
       <section class="section">
-        <div class="section-title">2. Contactos</div>
+        <div class="section-title"><span>2. Contactos</span><span>Responsables</span></div>
+        <p class="section-help">Contactos necesarios para avanzar con evaluación comercial, técnica, operativa y administrativa.</p>
         <div class="grid">
           <div class="field"><label class="req">Contacto principal</label><input name="contacto_nombre" required></div>
           <div class="field"><label class="req">Email principal</label><input name="contacto_email" type="email" required></div>
           <div class="field"><label>Teléfono / WhatsApp</label><input name="contacto_tel"></div>
+          <div class="field"><label>Contacto comercial</label><input name="contacto_comercial_nombre"></div>
+          <div class="field"><label>Email comercial</label><input name="contacto_comercial_email" type="email"></div>
           <div class="field"><label>Contacto técnico</label><input name="contacto_tec_nombre"></div>
           <div class="field"><label>Email técnico</label><input name="contacto_tec_email" type="email"></div>
+          <div class="field"><label>Contacto operativo / logístico</label><input name="contacto_ops_nombre"></div>
+          <div class="field"><label>Email operativo / logístico</label><input name="contacto_ops_email" type="email"></div>
+          <div class="field"><label>Contacto administración / facturación</label><input name="contacto_admin_nombre"></div>
+          <div class="field"><label>Email administración / facturación</label><input name="contacto_admin_email" type="email"></div>
         </div>
       </section>
 
       <section class="section">
-        <div class="section-title">3. Catálogo y tecnología</div>
+        <div class="section-title"><span>3. Tecnología e integración</span><span>Modelo técnico</span></div>
+        <p class="section-help">Permite evaluar si la integración será por VTEX, planillas, APIs, PIM Seller Center u otro modelo operativo.</p>
         <div class="grid">
           <div class="field"><label>Plataforma actual</label><select name="plataforma"><option value="">Seleccionar</option><option>VTEX</option><option>Tienda Nube</option><option>WordPress</option><option>WooCommerce</option><option>Shopify</option><option>Salesforce Commerce</option><option>Magento</option><option>Desarrollo propio</option><option>No tiene tienda online</option><option>Otro</option></select></div>
-          <div class="field"><label>ERP / OMS</label><select name="erp"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field"><label>Cuál ERP / OMS</label><input name="erp_cual"></div>
-          <div class="field"><label>Disponibilidad de API</label><select name="api"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>No sabe</option></select></div>
+          <div class="field"><label>ERP / OMS</label><select name="erp" data-toggle="erp_cual_wrap"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field conditional hidden" data-show-if="erp:Sí" id="erp_cual_wrap"><label>Cuál ERP / OMS</label><input name="erp_cual" placeholder="Ej: SAP, Tango, sistema propio, otro"></div>
+          <div class="field"><label>Disponibilidad de API <span class="tip" tabindex="0" data-tip="Indicar si el seller cuenta con APIs disponibles para catálogo, stock, precios, pedidos, tracking o estados logísticos.">?</span></label><select name="api" data-toggle="api_scope_wrap"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>No sabe</option></select></div>
+          <div class="field conditional hidden" data-show-if="api:Sí,Parcial" id="api_scope_wrap"><label>Alcance de APIs disponibles</label><select name="api_alcance"><option value="">Seleccionar</option><option>Catálogo</option><option>Stock</option><option>Precios</option><option>Pedidos</option><option>Estados de pedido</option><option>Tracking</option><option>Facturación</option><option>Varias APIs disponibles</option><option>A definir</option></select></div>
+          <div class="field"><label>Método de integración preferido</label><select name="metodo_integracion"><option value="">Seleccionar</option><option>VTEX a VTEX</option><option>Excel / planilla</option><option>API</option><option>Plataforma propia</option><option>PIM Seller Center</option><option>A definir</option></select></div>
           <div class="field"><label>Equipo técnico propio</label><select name="equipo_tec"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Tercerizado</option></select></div>
-          <div class="field"><label>Frecuencia de actualización</label><input name="frec_actualizacion" placeholder="Ej: diaria, horaria, tiempo real"></div>
-          <div class="field"><label>SKUs estimados fase 1</label><input name="skus_estimados" type="number" min="0"></div>
-          <div class="field"><label>Variantes aproximadas</label><input name="variantes" type="number" min="0"></div>
-          <div class="field"><label>Gestión de catálogo</label><input name="gestion_catalogo" placeholder="Ej: Excel, API, plataforma propia"></div>
-          <div class="field"><label>Puede enviar catálogo por Excel</label><select name="catalogo_excel"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field"><label>Información de producto completa</label><select name="info_prod_completa"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option></select></div>
-          <div class="field"><label>Imágenes disponibles</label><select name="imagenes"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option></select></div>
-          <div class="field"><label>Tabla de talles</label><select name="tabla_talles"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>No aplica</option></select></div>
-          <div class="field"><label>Restricciones de catálogo</label><select name="restricciones_cat"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field full"><label>Detalle de restricciones de catálogo</label><textarea name="restricciones_cat_det"></textarea></div>
+          <div class="field"><label>Puede recibir pedidos desde sistema externo</label><select name="recibe_pedidos_ext"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>A definir</option></select></div>
+          <div class="field"><label>Puede informar estados de pedido</label><select name="informa_estados"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>A definir</option></select></div>
+          <div class="field"><label>Puede informar tracking / código de seguimiento</label><select name="informa_tracking"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>A definir</option></select></div>
+          <div class="field"><label>Frecuencia de actualización técnica</label><select name="frec_actualizacion"><option value="">Seleccionar</option><option>Tiempo real</option><option>Cada hora</option><option>Varias veces al día</option><option>Diaria</option><option>Semanal</option><option>Manual</option><option>A definir</option></select></div>
         </div>
       </section>
 
       <section class="section">
-        <div class="section-title">4. Stock y precios</div>
+        <div class="section-title"><span>4. Catálogo</span><span>Productos</span></div>
+        <p class="section-help">Información necesaria para validar calidad de catálogo, variantes, imágenes, atributos y posibles conflictos con productos ya publicados.</p>
         <div class="grid">
-          <div class="field"><label>Gestión de stock</label><input name="gestion_stock" placeholder="Ej: plataforma, Excel, ERP, API"></div>
-          <div class="field"><label>Tipo de stock</label><select name="stock_tipo"><option value="">Seleccionar</option><option>Único para web</option><option>Compartido con tiendas físicas</option><option>Compartido con mayoristas</option><option>Múltiples depósitos</option></select></div>
-          <div class="field"><label>Reserva de stock</label><select name="stock_reserva"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>No sabe</option></select></div>
-          <div class="field"><label>Actualización diaria de stock</label><select name="stock_diario"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field"><label>Stock separado por canal/depósito</label><select name="stock_separado"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option></select></div>
-          <div class="field"><label>Stock de seguridad</label><select name="stock_seguridad"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
-          <div class="field"><label>Frecuencia de stock</label><input name="frec_stock" placeholder="Ej: diaria, cada 2 hs, tiempo real"></div>
-          <div class="field"><label>Gestión de precios</label><input name="gestion_precios" placeholder="Ej: Excel, plataforma, API"></div>
-          <div class="field"><label>Puede enviar precios por Excel</label><select name="precios_excel"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field"><label>Actualización diaria de precios</label><select name="precios_diario"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field"><label>Precios por canal</label><select name="precios_canal"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option></select></div>
-          <div class="field"><label>Precios incluyen IVA</label><select name="precios_iva"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field"><label>Promociones propias</label><select name="promos"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A evaluar</option></select></div>
-          <div class="field full"><label>Detalle de promociones</label><textarea name="promos_det"></textarea></div>
+          <div class="field"><label>SKUs estimados fase 1</label><input name="skus_estimados" type="number" min="0" placeholder="Ej: 500"></div>
+          <div class="field"><label>Variantes aproximadas</label><input name="variantes" type="number" min="0" placeholder="Ej: 2500"></div>
+          <div class="field"><label>Gestión de catálogo</label><select name="gestion_catalogo"><option value="">Seleccionar</option><option>Excel / planilla</option><option>API</option><option>Plataforma eCommerce</option><option>ERP</option><option>Manual</option><option>Otro</option></select></div>
+          <div class="field"><label>Puede enviar catálogo por Excel</label><select name="catalogo_excel"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field"><label>Información de producto completa</label><select name="info_prod_completa"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option></select></div>
+          <div class="field"><label>Atributos técnicos disponibles</label><select name="atributos_tecnicos"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>No aplica</option></select></div>
+          <div class="field"><label>Imágenes disponibles</label><select name="imagenes"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option></select></div>
+          <div class="field"><label>Imágenes por variante / color</label><select name="imagenes_variante"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>No aplica</option></select></div>
+          <div class="field"><label>Tabla de talles</label><select name="tabla_talles"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>No aplica</option></select></div>
+          <div class="field"><label>Productos con talle / color</label><select name="productos_variantes"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option></select></div>
+          <div class="field"><label>Cuenta con códigos SKU / EAN / GTIN</label><select name="codigos_sku_ean"><option value="">Seleccionar</option><option>Sí, SKU y EAN/GTIN</option><option>Solo SKU interno</option><option>Solo EAN/GTIN</option><option>No</option><option>Parcial</option></select></div>
+          <div class="field"><label>Productos ya publicados en Sporting</label><select name="productos_en_sporting"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>No sabe</option><option>Parcial</option></select></div>
+          <div class="field"><label>Restricciones de catálogo</label><select name="restricciones_cat" data-toggle="restricciones_cat_det_wrap"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
+          <div class="field full conditional hidden" data-show-if="restricciones_cat:Sí" id="restricciones_cat_det_wrap"><label>Detalle de restricciones de catálogo</label><textarea name="restricciones_cat_det" placeholder="Ej: productos que no pueden publicarse, marcas restringidas, categorías excluidas, condiciones de imagen o descripción."></textarea></div>
         </div>
       </section>
 
       <section class="section">
-        <div class="section-title">5. Logística y devoluciones</div>
+        <div class="section-title"><span>5. Stock y precios</span><span>Disponibilidad</span></div>
+        <p class="section-help">Permite evaluar riesgo de quiebres de stock, sincronización de disponibilidad y capacidad de actualización de precios.</p>
+        <div class="grid">
+          <div class="field"><label>Tipo de stock <span class="tip" tabindex="0" data-tip="Indicar si el stock es exclusivo para venta online, compartido con tiendas físicas, mayoristas u otros canales.">?</span></label><select name="stock_tipo"><option value="">Seleccionar</option><option>Único para web</option><option>Compartido con tiendas físicas</option><option>Compartido con mayoristas</option><option>Compartido con otros canales</option><option>Múltiples depósitos</option><option>A definir</option></select></div>
+          <div class="field"><label>Puede asignar stock exclusivo para Sporting Marketplace</label><select name="stock_exclusivo_mkt"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>A definir</option></select></div>
+          <div class="field"><label>Reserva de stock <span class="tip" tabindex="0" data-tip="Indicar si el seller puede separar unidades para evitar ventas sin disponibilidad real.">?</span></label><select name="stock_reserva"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>No sabe</option><option>A definir</option></select></div>
+          <div class="field"><label>Stock separado por canal / depósito</label><select name="stock_separado"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>A definir</option></select></div>
+          <div class="field"><label>Stock de seguridad</label><select name="stock_seguridad"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field"><label>Stock mínimo de seguridad estimado</label><input name="stock_minimo_seguridad" type="number" min="0" placeholder="Ej: 2 unidades por SKU"></div>
+          <div class="field"><label>Frecuencia de actualización de stock</label><select name="frec_stock"><option value="">Seleccionar</option><option>Tiempo real</option><option>Cada hora</option><option>Varias veces al día</option><option>Diaria</option><option>Semanal</option><option>Manual</option><option>A definir</option></select></div>
+          <div class="field"><label>Método de envío de stock</label><select name="gestion_stock"><option value="">Seleccionar</option><option>Excel / planilla</option><option>API</option><option>ERP</option><option>Plataforma eCommerce</option><option>Manual</option><option>Otro</option></select></div>
+          <div class="field"><label>Gestión de precios</label><select name="gestion_precios"><option value="">Seleccionar</option><option>Excel / planilla</option><option>API</option><option>ERP</option><option>Plataforma eCommerce</option><option>Manual</option><option>Otro</option></select></div>
+          <div class="field"><label>Puede enviar precios por Excel</label><select name="precios_excel"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field"><label>Frecuencia de actualización de precios</label><select name="frec_precios"><option value="">Seleccionar</option><option>Tiempo real</option><option>Diaria</option><option>Semanal</option><option>Por campaña</option><option>Manual</option><option>A definir</option></select></div>
+          <div class="field"><label>Precios por canal</label><select name="precios_canal"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option></select></div>
+          <div class="field"><label>Precios incluyen IVA</label><select name="precios_iva"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field"><label>Promociones propias</label><select name="promos" data-toggle="promos_det_wrap"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A evaluar</option></select></div>
+          <div class="field full conditional hidden" data-show-if="promos:Sí,A evaluar" id="promos_det_wrap"><label>Detalle de promociones</label><textarea name="promos_det" placeholder="Ej: descuentos por categoría, financiación, precios especiales, campañas propias."></textarea></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title"><span>6. Logística</span><span>Despacho y entrega</span></div>
+        <p class="section-help">Permite definir cobertura, origen de despacho, SLA operativo, tracking, etiquetado y retiro en tienda.</p>
         <div class="grid">
           <div class="field"><label>Realiza entregas a todo el país</label><select name="entrega_pais"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option></select></div>
-          <div class="field"><label>Zonas de cobertura</label><input name="zonas" placeholder="Ej: todo el país, AMBA, NOA..."></div>
-          <div class="field"><label>Despacho desde</label><select name="despacho_origen"><option value="">Seleccionar</option><option>Depósito único</option><option>Múltiples depósitos</option><option>Tiendas físicas</option><option>Operador logístico</option></select></div>
-          <div class="field"><label>Operador logístico</label><input name="operador_logistico"></div>
-          <div class="field"><label>Despacho diario</label><select name="despacho_diario"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Días específicos</option></select></div>
-          <div class="field"><label>Tiempo de despacho</label><input name="tiempo_despacho" placeholder="Ej: 24 hs, 48 hs, 3 días hábiles"></div>
-          <div class="field"><label>Tracking disponible</label><select name="tracking"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option></select></div>
-          <div class="field"><label>Impresora de etiquetas</label><select name="impresora"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field"><label>Ofrece retiro en tienda</label><select name="retiro_tienda"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field"><label>Cantidad de puntos de retiro</label><input name="puntos_retiro" type="number" min="0"></div>
-          <div class="field full"><label>Operación de retiro en tienda</label><textarea name="retiro_ops"></textarea></div>
-          <div class="field"><label>Acepta devoluciones</label><select name="acepta_devol"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Según categoría</option></select></div>
-          <div class="field"><label>Logística de devolución</label><select name="log_devol"><option value="">Seleccionar</option><option>Propia</option><option>Operador logístico</option><option>No tiene</option><option>A definir</option></select></div>
-          <div class="field"><label>Responsable logística inversa</label><input name="resp_log_inv"></div>
-          <div class="field"><label>Depósito de devolución</label><input name="deposito_devol"></div>
-          <div class="field"><label>Emite nota de crédito</label><select name="nota_credito"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
-          <div class="field"><label>Tiempo de gestión de devolución</label><input name="tiempo_devol"></div>
-          <div class="field"><label>Categorías con restricciones de devolución</label><select name="restr_devol"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field full"><label>Detalle restricciones de devolución</label><textarea name="restr_devol_det"></textarea></div>
+          <div class="field"><label>Zonas de cobertura</label><input name="zonas" placeholder="Ej: todo el país, AMBA, NOA, provincias específicas"></div>
+          <div class="field"><label>Provincia / localidad de despacho</label><input name="localidad_despacho" placeholder="Ej: Tucumán / San Miguel de Tucumán"></div>
+          <div class="field"><label>Despacho desde</label><select name="despacho_origen"><option value="">Seleccionar</option><option>Depósito único</option><option>Múltiples depósitos</option><option>Tiendas físicas</option><option>Operador logístico</option><option>A definir</option></select></div>
+          <div class="field"><label>Operador logístico</label><input name="operador_logistico" placeholder="Ej: Andreani, OCA, Ocasa, propio, otro"></div>
+          <div class="field"><label>Trabaja con más de un operador logístico</label><select name="multi_operador_logistico"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field"><label>Días de despacho</label><select name="dias_despacho"><option value="">Seleccionar</option><option>Lunes a viernes</option><option>Lunes a sábado</option><option>Días específicos</option><option>A demanda</option><option>A definir</option></select></div>
+          <div class="field"><label>Tiempo promedio de despacho</label><select name="tiempo_despacho"><option value="">Seleccionar</option><option>24 hs hábiles</option><option>48 hs hábiles</option><option>72 hs hábiles</option><option>Más de 72 hs hábiles</option><option>Días específicos</option><option>A definir</option></select></div>
+          <div class="field"><label>Puede cumplir SLA de despacho acordado</label><select name="cumple_sla_despacho"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>A definir</option></select></div>
+          <div class="field"><label>Tracking disponible</label><select name="tracking"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>A definir</option></select></div>
+          <div class="field"><label>Puede imprimir etiquetas</label><select name="impresora"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field"><label>Puede entregar paquetes etiquetados según requerimiento</label><select name="etiquetado_requerido"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>A definir</option></select></div>
+          <div class="field"><label>Ofrece retiro en tienda</label><select name="retiro_tienda" data-toggle="retiro_fields"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field conditional hidden" data-show-if="retiro_tienda:Sí,A definir" id="retiro_fields"><label>Cantidad de puntos de retiro</label><input name="puntos_retiro" type="number" min="0"></div>
+          <div class="field conditional hidden"><label>Stock separado para retiro en tienda</label><select name="stock_retiro_tienda"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>A definir</option></select></div>
+          <div class="field full conditional hidden"><label>Operación de retiro en tienda</label><textarea name="retiro_ops" placeholder="Describir cómo se prepara, notifica y entrega el pedido en tienda."></textarea></div>
         </div>
       </section>
 
       <section class="section">
-        <div class="section-title">6. Facturación y datos comerciales</div>
+        <div class="section-title"><span>7. Devoluciones y postventa</span><span>Logística inversa</span></div>
+        <p class="section-help">Permite conocer cómo se gestionan devoluciones, validación de producto, restricciones por categoría y documentación comercial.</p>
         <div class="grid">
-          <div class="field"><label>Emite factura</label><select name="emite_factura"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field"><label>Facturación automática</label><select name="factura_auto"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option></select></div>
+          <div class="field"><label>Acepta devoluciones</label><select name="acepta_devol" data-toggle="devol_fields"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Según categoría</option><option>A definir</option></select></div>
+          <div class="field conditional hidden" data-show-if="acepta_devol:Sí,Según categoría,A definir" id="devol_fields"><label>Logística de devolución</label><select name="log_devol"><option value="">Seleccionar</option><option>Propia</option><option>Operador logístico</option><option>No tiene</option><option>A definir</option></select></div>
+          <div class="field conditional hidden"><label>Responsable logística inversa</label><input name="resp_log_inv" placeholder="Ej: seller, Sporting, operador logístico, a definir"></div>
+          <div class="field conditional hidden"><label>Lugar de recepción de devolución</label><input name="deposito_devol" placeholder="Ej: depósito central, tienda, operador logístico"></div>
+          <div class="field conditional hidden"><label>Responsable de validar el producto devuelto</label><input name="resp_validacion_devol" placeholder="Ej: seller, depósito, equipo calidad"></div>
+          <div class="field conditional hidden"><label>Tiempo de gestión de devolución</label><select name="tiempo_devol"><option value="">Seleccionar</option><option>24 hs hábiles</option><option>48 hs hábiles</option><option>72 hs hábiles</option><option>Más de 72 hs hábiles</option><option>A definir</option></select></div>
+          <div class="field"><label>Categorías con restricciones de devolución</label><select name="restr_devol" data-toggle="restr_devol_det_wrap"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field full conditional hidden" data-show-if="restr_devol:Sí,A definir" id="restr_devol_det_wrap"><label>Detalle restricciones de devolución</label><textarea name="restr_devol_det" placeholder="Ej: productos sin cambio, productos de higiene, liquidación, uso personal, condiciones especiales."></textarea></div>
+          <div class="field"><label>Emite nota de crédito por devolución</label><select name="nota_credito"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field full"><label>Condiciones especiales de postventa</label><textarea name="condiciones_postventa" placeholder="Indicar cualquier condición operativa, comercial o legal vinculada a cambios, devoluciones, garantías o reclamos."></textarea></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title"><span>8. Facturación y condiciones comerciales</span><span>Administración</span></div>
+        <p class="section-help">Información necesaria para analizar facturación, comprobantes, tickets estimados, cuotas, comisión y restricciones comerciales.</p>
+        <div class="grid">
+          <div class="field"><label>Emite factura</label><select name="emite_factura"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field"><label>Facturación automática</label><select name="factura_auto"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>Parcial</option><option>A definir</option></select></div>
           <div class="field"><label>Tipo de factura</label><input name="tipo_factura" placeholder="Ej: A, B, C"></div>
-          <div class="field"><label>Comprobante digital</label><select name="comp_digital"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
+          <div class="field"><label>Comprobante digital</label><select name="comp_digital"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field"><label>Formato de factura</label><select name="factura_formato"><option value="">Seleccionar</option><option>PDF</option><option>XML</option><option>PDF + XML</option><option>API</option><option>Otro</option><option>A definir</option></select></div>
           <div class="field"><label>Nota de crédito por devolución</label><select name="nc_devol"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
-          <div class="field"><label>Formato de factura</label><input name="factura_formato" placeholder="PDF, XML, API, otro"></div>
-          <div class="field"><label>Ticket promedio</label><input name="ticket_promedio" type="number" min="0"></div>
-          <div class="field"><label>GMV estimado mensual</label><input name="gmv_estimado" type="number" min="0"></div>
+          <div class="field"><label>Ticket promedio estimado</label><input name="ticket_promedio" type="number" min="0" placeholder="Importe aproximado"></div>
+          <div class="field"><label>GMV estimado mensual</label><input name="gmv_estimado" type="number" min="0" placeholder="Venta mensual estimada"></div>
           <div class="field"><label>Cuotas ofrecidas</label><select name="cuotas"><option value="">Seleccionar</option><option>1 cuota</option><option>3 cuotas</option><option>6 cuotas</option><option>12 cuotas</option><option>A definir</option></select></div>
           <div class="field"><label>Comisión marketplace esperada</label><input name="comision_mkt" placeholder="Ej: 7%, a definir"></div>
-          <div class="field"><label>Costo financiero</label><input name="costo_financiero" placeholder="Ej: acepta costo, no acepta, a definir"></div>
-          <div class="field"><label>Restricciones comerciales</label><select name="restricciones_com"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-          <div class="field full"><label>Detalle restricciones comerciales</label><textarea name="restricciones_com_det"></textarea></div>
+          <div class="field"><label>Costo financiero</label><select name="costo_financiero"><option value="">Seleccionar</option><option>Acepta costo financiero</option><option>No acepta costo financiero</option><option>Depende de la promoción</option><option>A definir</option></select></div>
+          <div class="field"><label>Restricciones comerciales</label><select name="restricciones_com" data-toggle="restricciones_com_det_wrap"><option value="">Seleccionar</option><option>Sí</option><option>No</option><option>A definir</option></select></div>
+          <div class="field full conditional hidden" data-show-if="restricciones_com:Sí,A definir" id="restricciones_com_det_wrap"><label>Detalle restricciones comerciales</label><textarea name="restricciones_com_det" placeholder="Ej: categorías excluidas, precios mínimos, exclusividades, condiciones de marca, financiación limitada."></textarea></div>
         </div>
       </section>
 
       <section class="section">
-        <div class="section-title">7. Observaciones finales</div>
+        <div class="section-title"><span>9. Observaciones finales</span><span>Cierre</span></div>
+        <p class="section-help">Espacio para informar limitaciones, aclaraciones o particularidades que puedan impactar en la integración.</p>
         <div class="grid">
+          <div class="field full"><label>Principales limitaciones actuales</label><textarea name="limitaciones_actuales" placeholder="Ej: falta de API, stock compartido, cobertura parcial, catálogo incompleto, tiempos logísticos, recursos técnicos limitados."></textarea></div>
           <div class="field full"><label>Particularidades relevantes</label><textarea name="particularidades"></textarea></div>
           <div class="field full"><label>Comentarios adicionales</label><textarea name="comentarios"></textarea></div>
         </div>
@@ -169,10 +271,7 @@
   </div>
 
 <script>
-  // Pegá acá la URL de implementación de Apps Script.
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXQcj1JP6waZeEoRdI7QOJUsCSuL7BfWynLLp8xdaWpKwjganGsYg0jBUU30MRHPoEgA/exec";
-
-  // CSV publicado de la hoja "sellers". Se usa solo para mostrar logo/nombre del seller.
   const SELLERS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwd-qIMhoH1poJpaTZqN-7O5IGAfPDTxslBAX8LCPogTkwheW2vWsq59JkvvYakM8ndCKgUQualQyi/pub?gid=899415596&single=true&output=csv";
 
   const params = new URLSearchParams(window.location.search);
@@ -188,19 +287,17 @@
   const sellerNameView = document.getElementById("sellerNameView");
   const sellerMetaView = document.getElementById("sellerMetaView");
   const sellerIdView = document.getElementById("sellerIdView");
+  const progressBar = document.getElementById("progressBar");
+  const progressPercent = document.getElementById("progressPercent");
 
   function setStatus(msg, type=""){
     statusMsg.textContent = msg;
     statusMsg.className = "status" + (type ? " " + type : "");
   }
 
-  function esc(s){
-    return String(s || "").replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
-  }
-
   function norm(s){
     return String(s || "")
-      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
       .toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
   }
 
@@ -230,8 +327,12 @@
         else q = !q;
       } else if (c === "," && !q) {
         row.push(cell); cell = "";
-      } else if ((c === "\n" || c === "\r") && !q) {
-        if (c === "\r" && n === "\n") i++;
+      } else if ((c === "
+" || c === "
+") && !q) {
+        if (c === "
+" && n === "
+") i++;
         row.push(cell); rows.push(row); row = []; cell = "";
       } else cell += c;
     }
@@ -269,14 +370,8 @@
 
     if (logoUrl) {
       sellerLogo.src = logoUrl;
-      sellerLogo.onload = () => {
-        sellerLogo.classList.remove("hidden");
-        sellerInitials.classList.add("hidden");
-      };
-      sellerLogo.onerror = () => {
-        sellerLogo.classList.add("hidden");
-        sellerInitials.classList.remove("hidden");
-      };
+      sellerLogo.onload = () => { sellerLogo.classList.remove("hidden"); sellerInitials.classList.add("hidden"); };
+      sellerLogo.onerror = () => { sellerLogo.classList.add("hidden"); sellerInitials.classList.remove("hidden"); };
     } else {
       sellerLogo.classList.add("hidden");
       sellerInitials.classList.remove("hidden");
@@ -285,7 +380,6 @@
     sellerIdentity.classList.add("visible");
     chip.classList.add("hidden");
 
-    // Prefill suave: ayuda al seller, pero puede editarlo si corresponde.
     const nombreInput = document.querySelector('[name="nombre"]');
     const categoriasInput = document.querySelector('[name="categorias"]');
     const webInput = document.querySelector('[name="web"]');
@@ -294,6 +388,7 @@
     if (categoriasInput && !categoriasInput.value && category) categoriasInput.value = category;
     if (webInput && !webInput.value && seller.seller_url) webInput.value = seller.seller_url;
     if (plataformaInput && !plataformaInput.value && seller.plataforma) plataformaInput.value = seller.plataforma;
+    updateProgress();
   }
 
   async function loadSellerIdentity(){
@@ -344,6 +439,51 @@
     return obj;
   }
 
+  function applyConditionals(){
+    document.querySelectorAll('.conditional').forEach(el => {
+      const rule = el.getAttribute('data-show-if');
+      if (!rule) return;
+      const [fieldName, rawValues] = rule.split(':');
+      const allowed = (rawValues || '').split(',').map(v => v.trim());
+      const source = document.querySelector(`[name="${fieldName}"]`);
+      const visible = source && allowed.includes(source.value);
+      el.classList.toggle('hidden', !visible);
+      el.querySelectorAll('input,select,textarea').forEach(input => {
+        if (!visible) input.value = '';
+      });
+    });
+
+    // Grupos condicionales asociados por cercanía cuando dependen del mismo selector.
+    const retiro = document.querySelector('[name="retiro_tienda"]');
+    const showRetiro = retiro && ['Sí','A definir'].includes(retiro.value);
+    document.querySelectorAll('[name="stock_retiro_tienda"],[name="retiro_ops"]').forEach(input => {
+      const field = input.closest('.field');
+      if (field) field.classList.toggle('hidden', !showRetiro);
+      if (!showRetiro) input.value = '';
+    });
+
+    const devol = document.querySelector('[name="acepta_devol"]');
+    const showDevol = devol && ['Sí','Según categoría','A definir'].includes(devol.value);
+    document.querySelectorAll('[name="resp_log_inv"],[name="deposito_devol"],[name="resp_validacion_devol"],[name="tiempo_devol"]').forEach(input => {
+      const field = input.closest('.field');
+      if (field) field.classList.toggle('hidden', !showDevol);
+      if (!showDevol) input.value = '';
+    });
+  }
+
+  function updateProgress(){
+    const fields = Array.from(document.querySelectorAll('#sellerForm input:not([type="hidden"]), #sellerForm select, #sellerForm textarea'))
+      .filter(el => !el.closest('.hidden'));
+    const total = fields.length || 1;
+    const completed = fields.filter(el => String(el.value || '').trim() !== '').length;
+    const pct = Math.round((completed / total) * 100);
+    progressBar.style.width = pct + '%';
+    progressPercent.textContent = pct + '%';
+  }
+
+  document.getElementById("sellerForm").addEventListener("input", () => { applyConditionals(); updateProgress(); });
+  document.getElementById("sellerForm").addEventListener("change", () => { applyConditionals(); updateProgress(); });
+
   document.getElementById("sellerForm").addEventListener("submit", async (ev) => {
     ev.preventDefault();
 
@@ -358,9 +498,6 @@
 
     try {
       const payload = formToObject(ev.currentTarget);
-
-      // Google Apps Script no expone headers CORS para leer la respuesta desde GitHub Pages.
-      // Por eso se usa no-cors: el formulario envía correctamente, pero el navegador no lee el JSON de respuesta.
       await fetch(APPS_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
@@ -372,6 +509,8 @@
       if (formEl) formEl.reset();
       sellerInput.value = sellerId;
       submitBtn.textContent = "Enviado";
+      applyConditionals();
+      updateProgress();
     } catch (err) {
       console.error(err);
       setStatus("Error al enviar: " + err.message, "err");
@@ -379,6 +518,8 @@
     }
   });
 
+  applyConditionals();
+  updateProgress();
   loadSellerIdentity();
 </script>
 </body>
